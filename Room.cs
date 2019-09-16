@@ -8,7 +8,7 @@ namespace TextAdventure
     {
         public List<List<Entity>> map;
 
-        public List<List<Entity>> ImmutableMap { get; }
+        internal List<List<Entity>> ImmutableMap { get; }
 
         public int Height;
 
@@ -50,7 +50,7 @@ namespace TextAdventure
 
             OutRoom.map[y][x] = oexit;
             OutRoom.ImmutableMap[y][x] = oexit;
-
+            
             return this;
         }
 

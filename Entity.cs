@@ -51,9 +51,9 @@ namespace TextAdventure
                 //HasValue is for nullable booleans, so you don't accidently check if null is true
                 if (CurrentRoom.Get(NewX, NewY).Navigable.HasValue && CurrentRoom.Get(NewX, NewY).Navigable.Value)
                 {
-                    if(CurrentRoom.map[NewY][NewX] is Exit exit)
-                    { 
-                        exit.NewMap((Player) this);
+                    if (CurrentRoom.map[NewY][NewX] is Exit exit)
+                    {
+                        exit.NewMap((Player)this);
                     }
 
                     X = NewX;
@@ -76,6 +76,11 @@ namespace TextAdventure
             Name = name;
             CurrentRoom = currentmap;
             Navigable = navigable;
+        }
+
+        public override string ToString()
+        {
+            return Name + " at " + X + ", " + Y;
         }
     }
 }
