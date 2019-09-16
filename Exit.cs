@@ -11,5 +11,10 @@
             Out = outroom;
             In = inroom;
         }
+
+        public void NewMap(Player p)
+        {
+            p.CurrentRoom = Out;
+        }
     }
 }

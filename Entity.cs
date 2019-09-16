@@ -51,6 +51,10 @@ namespace TextAdventure
                 //HasValue is for nullable booleans, so you don't accidently check if null is true
                 if (CurrentRoom.Get(NewX, NewY).Navigable.HasValue && CurrentRoom.Get(NewX, NewY).Navigable.Value)
                 {
+                    if(CurrentRoom.map[NewY][NewX].Representation == 'D')
+                    {
+                        //Get the Exit so you can call NewMap
+                    }
 
                     X = NewX;
                     Y = NewY;
