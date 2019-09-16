@@ -17,7 +17,7 @@ namespace TextAdventure
             Out = oout;
         }
 
-        public void NewMap(Player p)
+        public void NewRoom(Player p)
         {
             p.CurrentRoom.map[p.Y][p.X] = p.CurrentRoom.ImmutableMap[p.Y][p.X];
             p.CurrentRoom = OutRoom;
@@ -25,9 +25,7 @@ namespace TextAdventure
             p.Y = Out.Y;
 
             OutRoom.map[p.Y][p.X] = p;
-            ((Player)OutRoom.map[p.Y][p.X]).X = Out.X;
-            ((Player)OutRoom.map[p.Y][p.X]).Y = Out.Y;
-            ((Player)OutRoom.map[p.Y][p.X]).CurrentRoom = OutRoom;
+
             //Console.Clear();
             //Console.WriteLine(p.CurrentRoom);
 

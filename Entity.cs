@@ -51,15 +51,17 @@ namespace TextAdventure
                 //HasValue is for nullable booleans, so you don't accidently check if null is true
                 if (CurrentRoom.Get(NewX, NewY).Navigable.HasValue && CurrentRoom.Get(NewX, NewY).Navigable.Value)
                 {
-                    if(CurrentRoom.map[NewY][NewX] is Exit exit)
-                    { 
-                        exit.NewMap((Player) this);
-                    }
-
                     X = NewX;
                     Y = NewY;
 
+
+                    if (CurrentRoom.map[NewY][NewX] is Exit exit)
+                    {
+                        exit.NewRoom((Player)this);
+                    }
+
                     CurrentRoom.Move(OldX, OldY, NewX, NewY);
+
                     return true;
                 }
             }
