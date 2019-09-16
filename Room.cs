@@ -21,12 +21,15 @@ namespace TextAdventure
             return map[y][x];
         }
 
+
+        //Builder Methods
         public Room AddPlayer(int x, int y)
         {
             map[y][x] = new Player(x, y, this);
             return this;
         }
 
+        //above
         public Room AddWall(int x, int y)
         {
             map[y][x] = new Wall(x, y, this);
@@ -53,6 +56,8 @@ namespace TextAdventure
             }
         }
 
+
+        //Updating the room map; called in entity.move, as entity.move just changes the entity positions
         public void Move(int x, int y, int newX, int newY)
         {
             map[newY][newX] = map[y][x];

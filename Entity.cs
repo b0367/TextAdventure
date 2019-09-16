@@ -10,11 +10,11 @@ namespace TextAdventure
     {
         public char Representation = ' '; //What the entity looks like
 
-        public int X; //It's X location
+        public int X; //Its X location
 
-        public int Y; //It's Y locations
+        public int Y; //Its Y locations
 
-        public string Name; //It's name
+        public string Name; //Its name
 
         public Room CurrentMap;
 
@@ -37,7 +37,7 @@ namespace TextAdventure
             {
                 return false;
             }
-            //Clarification?
+            //Checking if the new tile is null; only because you can't get a null value's navigable
             if (CurrentMap.Get(NewX, NewY) == null)
             {
                 X = NewX;
@@ -48,6 +48,7 @@ namespace TextAdventure
             }
             else
             {
+                //HasValue is for nullable booleans, so you don't accidently check if null is true
                 if (CurrentMap.Get(NewX, NewY).Navigable.HasValue && CurrentMap.Get(NewX, NewY).Navigable.Value)
                 {
 
