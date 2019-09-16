@@ -8,7 +8,7 @@ namespace TextAdventure
     {
         public List<List<Entity>> map;
 
-        public List<List<Entity>> ImmutableMap { get; }
+        internal List<List<Entity>> ImmutableMap { get; }
 
         public int Height;
 
@@ -36,6 +36,22 @@ namespace TextAdventure
             ImmutableMap[y][x] = new Wall(x, y, this);
             return this;
 
+        }
+
+        public Room AddExit(int x, int y, Room OutRoom, int ox, int oy)
+        {
+            Exit exit = new Exit(x, y, OutRoom, this);
+            Exit oexit = new Exit(ox, oy, this, OutRoom);
+            exit.Out = oexit;
+            oexit.Out = exit;
+
+            map[y][x] = exit;
+            ImmutableMap[y][x] = exit;
+
+            OutRoom.map[y][x] = oexit;
+            OutRoom.ImmutableMap[y][x] = oexit;
+            
+            return this;
         }
 
         public Room(int height, int width)
