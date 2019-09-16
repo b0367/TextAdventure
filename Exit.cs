@@ -1,20 +1,29 @@
-﻿namespace TextAdventure
+﻿using System;
+
+namespace TextAdventure
 {
     public class Exit : Entity
     {
-        public Room Out;
-        public Room In;
+        public Room OutRoom;
+        public Room InRoom;
 
-        public Exit(int x, int y, Room outroom, Room inroom) : base(x, y, "Exit", inroom, true, 'D') //Creates an Exit at (x,y) named "Exit" in the present room is navigable and is seen as "D"
+        public Exit Out;
+
+        public Exit(int x, int y, Room outroom, Room inroom, Exit oout) : base(x, y, "Exit", inroom, true, 'D') //Creates an Exit at (x,y) named "Exit" in the present room is navigable and is seen as "D"
         {
             //Sets the room you come in from and where you go out to
-            Out = outroom;
-            In = inroom;
+            OutRoom = outroom;
+            InRoom = inroom;
+            Out = oout;
         }
 
         public void NewMap(Player p)
         {
-            p.CurrentRoom = Out;
+            p.CurrentRoom = OutRoom;
+            p.X = Out.X;
+            p.Y = Out.Y;
+            Console.Clear();
+            Console.WriteLine(p.CurrentRoom);
         }
     }
 }
