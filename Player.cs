@@ -14,7 +14,6 @@ namespace TextAdventure
     public class Player : Entity
     {
 
-
         public Dictionary<Actions, List<string>> ActionWords = new Dictionary<Actions, List<string>>()
         {
             { Actions.Up, new string[]{"w", "up", "north" }.ToList() },
@@ -51,6 +50,7 @@ namespace TextAdventure
                 {
                     Move(-1, 0);
                 }
+                Console.WriteLine(X + ", " + Y);
                 Console.WriteLine(CurrentRoom);
             }
         }
@@ -60,7 +60,7 @@ namespace TextAdventure
         private string BytesToString(byte[] charByte)
         {
             string output = "";
-            foreach(byte b in charByte)
+            foreach (byte b in charByte)
             {
                 char c = Convert.ToChar(b);
                 if (!char.IsLetter(c))

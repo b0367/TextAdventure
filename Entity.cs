@@ -16,7 +16,7 @@ namespace TextAdventure
 
         public string Name; //Its name
 
-        public Room CurrentRoom;
+        public volatile Room CurrentRoom;
 
         public bool? Navigable; //Can it be moved into
 
@@ -25,7 +25,7 @@ namespace TextAdventure
         public bool Move(int DeltaX, int DeltaY) //Mainly for players. It'll move the player on the board
         {
             //Changes entity's X and Y location so that it can move around the board
-            int NewX = X + DeltaX; 
+            int NewX = X + DeltaX;
             int NewY = Y + DeltaY;
 
             //Stores the old X and Y values for later comparisons

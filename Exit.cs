@@ -23,12 +23,16 @@ namespace TextAdventure
             p.CurrentRoom = OutRoom;
             p.X = Out.X;
             p.Y = Out.Y;
-            OutRoom.map[Out.Y][Out.X] = p;
+
+            OutRoom.map[p.Y][p.X] = p;
+            ((Player)OutRoom.map[p.Y][p.X]).X = Out.X;
+            ((Player)OutRoom.map[p.Y][p.X]).Y = Out.Y;
+            ((Player)OutRoom.map[p.Y][p.X]).CurrentRoom = OutRoom;
+            //Console.Clear();
+            //Console.WriteLine(p.CurrentRoom);
 
             Console.WriteLine(OutRoom.Get(Out.X, Out.Y));
-
-            Console.Clear();
-            Console.WriteLine(p.CurrentRoom);
+            Console.WriteLine(OutRoom.Get(0, 0));
         }
     }
 }

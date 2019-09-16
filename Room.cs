@@ -76,6 +76,7 @@ namespace TextAdventure
         //Updating the room map; called in entity.move, as entity.move just changes the entity positions
         public void Move(int x, int y, int newX, int newY)
         {
+            Console.WriteLine("Room.Move: " + map[y][x] + " : " + ImmutableMap[y][x]);
             map[newY][newX] = map[y][x];
             map[y][x] = ImmutableMap[y][x];
         }
