@@ -22,11 +22,11 @@ namespace TextAdventure
         }
 
 
-        //Builder Methods
-        public Room AddPlayer(int x, int y)
+        //Builder Methods; player has to be last for reasons
+        public Player AddPlayer(int x, int y)
         {
             map[y][x] = new Player(x, y, this);
-            return this;
+            return (Player) map[y][x];
         }
 
         //above

@@ -16,7 +16,7 @@ namespace TextAdventure
 
         public string Name; //Its name
 
-        public Room CurrentMap;
+        public Room CurrentRoom;
 
         public bool? Navigable; //Can it be moved into
 
@@ -33,29 +33,29 @@ namespace TextAdventure
             int OldY = Y;
 
             //If the new location is out of the bounds of the room
-            if (NewX < 0 || NewY < 0 || NewX >= CurrentMap.Width || NewY >= CurrentMap.Height)
+            if (NewX < 0 || NewY < 0 || NewX >= CurrentRoom.Width || NewY >= CurrentRoom.Height)
             {
                 return false;
             }
             //Checking if the new tile is null; only because you can't get a null value's navigable
-            if (CurrentMap.Get(NewX, NewY) == null)
+            if (CurrentRoom.Get(NewX, NewY) == null)
             {
                 X = NewX;
                 Y = NewY;
 
-                CurrentMap.Move(OldX, OldY, NewX, NewY);
+                CurrentRoom.Move(OldX, OldY, NewX, NewY);
                 return true;
             }
             else
             {
                 //HasValue is for nullable booleans, so you don't accidently check if null is true
-                if (CurrentMap.Get(NewX, NewY).Navigable.HasValue && CurrentMap.Get(NewX, NewY).Navigable.Value)
+                if (CurrentRoom.Get(NewX, NewY).Navigable.HasValue && CurrentRoom.Get(NewX, NewY).Navigable.Value)
                 {
 
                     X = NewX;
                     Y = NewY;
 
-                    CurrentMap.Move(OldX, OldY, NewX, NewY);
+                    CurrentRoom.Move(OldX, OldY, NewX, NewY);
                     return true;
                 }
             }
@@ -70,7 +70,7 @@ namespace TextAdventure
             Y = y;
             Representation = representation;
             Name = name;
-            CurrentMap = currentmap;
+            CurrentRoom = currentmap;
             Navigable = navigable;
         }
     }
