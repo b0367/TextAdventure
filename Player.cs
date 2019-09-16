@@ -35,7 +35,6 @@ namespace TextAdventure
                 await stream.ReadAsync(charByte, 0, 256);
                 string input = BytesToString(charByte);
                 Console.Clear();
-                Console.WriteLine(input);
                 if (ActionWords[Actions.Up].Contains(input))
                 {
                     Move(0, -1);
