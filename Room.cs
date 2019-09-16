@@ -6,9 +6,9 @@ namespace TextAdventure
 {
     public class Room
     {
-        public List<List<Tile>> map;
+        public List<List<Entity>> map;
 
-        public List<List<Tile>> ImmutableMap { get; }
+        public List<List<Entity>> ImmutableMap { get; }
 
         public int Height;
 
@@ -16,21 +16,21 @@ namespace TextAdventure
 
         public List<Exit> Exits;
 
-        public Tile Get(int x, int y)
+        public Entity Get(int x, int y)
         {
             return map[y][x];
         }
 
         public Room AddPlayer(int x, int y)
         {
-            map[y][x].Here = new Player(x, y, this);
+            map[y][x] = new Player(x, y, this);
             return this;
         }
 
         public Room AddWall(int x, int y)
         {
-            map[y][x].Here = new Wall(x, y, this);
-            ImmutableMap[x][y].Here = new Wall(x, y, this);
+            map[y][x] = new Wall(x, y, this);
+            ImmutableMap[y][x] = new Wall(x, y, this);
             return this;
 
         }
@@ -39,16 +39,16 @@ namespace TextAdventure
         {
             Height = height;
             Width = width;
-            map = new List<List<Tile>>();
-            ImmutableMap = new List<List<Tile>>();
+            map = new List<List<Entity>>();
+            ImmutableMap = new List<List<Entity>>();
             for (int y = 0; y < Height; y++)
             {
-                map.Add(new List<Tile>());
-                ImmutableMap.Add(new List<Tile>());
+                map.Add(new List<Entity>());
+                ImmutableMap.Add(new List<Entity>());
                 for (int x = 0; x < Width; x++)
                 {
-                    map[y].Add(new Tile(this, x, y));
-                    ImmutableMap[y].Add(new Tile(this, x, y));
+                    map[y].Add(null);
+                    ImmutableMap[y].Add(null);
                 }
             }
         }
@@ -63,7 +63,7 @@ namespace TextAdventure
         {
             string output = "";
             map.ForEach((x) => {
-                x.ForEach(e => output += e.Here == null ? '░' : e.Here.Representation);
+                x.ForEach(e => output += e == null ? Entity.Default.Representation : e.Representation);
                 output += "\n";
             });
             return output;
