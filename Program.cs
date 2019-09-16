@@ -10,6 +10,7 @@ namespace TextAdventure
     {
         static void Main(string[] args)
         {
+            DefaultEntity pushing = new DefaultEntity();
             Room r = new Room(5, 5);
             (int x, int y) = (1, 1);
             r.AddPlayer(1, 1).AddWall(0, 0).AddWall(1, 0).AddWall(2, 0);
