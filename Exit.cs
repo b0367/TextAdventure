@@ -17,7 +17,7 @@ namespace TextAdventure
             Out = oout;
         }
 
-        public void NewMap(Entity p)
+        public void NewMap(Player p)
         {
             p.CurrentRoom = OutRoom;
             p.X = Out.X;

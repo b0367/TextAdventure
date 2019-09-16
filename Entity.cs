@@ -54,7 +54,7 @@ namespace TextAdventure
                     if(CurrentRoom.map[NewY][NewX] is Exit)
                     {
                         Exit exit = (Exit)CurrentRoom.map[NewY][NewX];
-                        exit.NewMap(this);
+                        exit.NewMap((Player) this);
                     }
 
                     X = NewX;
