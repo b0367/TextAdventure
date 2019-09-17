@@ -50,7 +50,6 @@ namespace TextAdventure
                 {
                     Move(-1, 0);
                 }
-                Console.WriteLine(X + ", " + Y);
                 Console.WriteLine(CurrentRoom);
             }
         }

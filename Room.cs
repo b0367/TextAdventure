@@ -48,8 +48,8 @@ namespace TextAdventure
             map[y][x] = exit;
             ImmutableMap[y][x] = exit;
 
-            OutRoom.map[y][x] = oexit;
-            OutRoom.ImmutableMap[y][x] = oexit;
+            OutRoom.map[oy][ox] = oexit;
+            OutRoom.ImmutableMap[oy][ox] = oexit;
 
             return this;
         }
@@ -76,7 +76,6 @@ namespace TextAdventure
         //Updating the room map; called in entity.move, as entity.move just changes the entity positions
         public void Move(int x, int y, int newX, int newY)
         {
-            Console.WriteLine("Room.Move: " + map[y][x] + " : " + ImmutableMap[y][x]);
             map[newY][newX] = map[y][x];
             map[y][x] = ImmutableMap[y][x];
         }

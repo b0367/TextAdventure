@@ -17,21 +17,12 @@ namespace TextAdventure
             Out = oout;
         }
 
-        public void NewRoom(Player p)
+        public void NewRoom(Player p, int OldX, int OldY)
         {
-            p.CurrentRoom.map[p.Y][p.X] = p.CurrentRoom.ImmutableMap[p.Y][p.X];
+            p.CurrentRoom.map[OldY][OldX] = p.CurrentRoom.ImmutableMap[OldY][OldX];
             p.CurrentRoom = OutRoom;
             p.X = Out.X;
             p.Y = Out.Y;
-
-            for(int i = 0; i < OutRoom.map.Count; i++)
-            {
-                for(int j = 0; j < OutRoom.map[i].Count; j++)
-                {
-                    //still not working
-                    if (!(OutRoom.map[i][j] is Player)) OutRoom.map[i][j] = OutRoom.ImmutableMap[i][j]; // I can't run a test correctly in this share thing
-                }
-            }
 
             OutRoom.map[p.Y][p.X] = p;
 
