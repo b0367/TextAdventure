@@ -24,13 +24,18 @@ namespace TextAdventure
             p.X = Out.X;
             p.Y = Out.Y;
 
+            for(int i = 0; i < OutRoom.map.Count; i++)
+            {
+                for(int j = 0; j < OutRoom.map[i].Count; j++)
+                {
+                    //still not working
+                    if (!(OutRoom.map[i][j] is Player)) OutRoom.map[i][j] = OutRoom.ImmutableMap[i][j]; // I can't run a test correctly in this share thing
+                }
+            }
+
             OutRoom.map[p.Y][p.X] = p;
 
-            //Console.Clear();
-            //Console.WriteLine(p.CurrentRoom);
 
-            Console.WriteLine(OutRoom.Get(Out.X, Out.Y));
-            Console.WriteLine(OutRoom.Get(0, 0));
         }
     }
 }
