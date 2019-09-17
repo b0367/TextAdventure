@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace TextAdventure
 {
-    public abstract class Entity
+    public class Entity
     {
         public char Representation = ' '; //What the entity looks like
+
+        public Item item;
 
         public int X; //Its X location
 
@@ -20,7 +22,7 @@ namespace TextAdventure
 
         public bool Navigable; //Can it be moved into
 
-        public static Entity Default = new DefaultEntity();
+        public static Entity Default = new DefaultEntity("");
 
         public bool Move(int DeltaX, int DeltaY) //Mainly for players. It'll move the player on the board
         {
@@ -60,7 +62,7 @@ namespace TextAdventure
 
                     if (DoMove)
                     {
-                        ((Exit) CurrentRoom.ImmutableMap[NewY][NewX]).NewRoom((Player)this, OldX, OldY);
+                        ((Exit)CurrentRoom.ImmutableMap[NewY][NewX]).NewRoom((Player)this, OldX, OldY);
                     }
 
                     return true;
@@ -75,10 +77,25 @@ namespace TextAdventure
         {
             X = x;
             Y = y;
-            Representation = representation;
             Name = name;
             CurrentRoom = currentmap;
             Navigable = navigable;
+            Representation = representation;
+        }
+        public Entity(int x, int y, string name, Room currentmap, Item iitem, bool navigable = true, char representation = '░', bool secret = true) //Sets up a basic entity
+        {
+            X = x;
+            Y = y;
+            Name = name;
+            CurrentRoom = currentmap;
+            Navigable = navigable;
+            item = iitem;
+            Representation = iitem == null ? representation : secret ? representation : iitem.Representation;
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }
