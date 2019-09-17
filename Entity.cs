@@ -10,6 +10,10 @@ namespace TextAdventure
     {
         public char Representation = ' '; //What the entity looks like
 
+        public char RealRepresentation = ' ';
+
+        public bool ItemSecret = false;
+
         public Item item;
 
         public int X; //Its X location
@@ -81,6 +85,7 @@ namespace TextAdventure
             CurrentRoom = currentmap;
             Navigable = navigable;
             Representation = representation;
+            RealRepresentation = Representation;
         }
         public Entity(int x, int y, string name, Room currentmap, Item iitem, bool navigable = true, char representation = '░', bool secret = true) //Sets up a basic entity
         {
@@ -91,11 +96,20 @@ namespace TextAdventure
             Navigable = navigable;
             item = iitem;
             Representation = iitem == null ? representation : secret ? representation : iitem.Representation;
+            RealRepresentation = representation;
         }
 
         public override string ToString()
         {
             return Name;
+        }
+
+        public void ReEvaluate()
+        {
+            if(item == null)
+            {
+                Representation = RealRepresentation;
+            }
         }
     }
 }

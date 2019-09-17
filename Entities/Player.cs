@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using TextAdventure.Items;
 
 namespace TextAdventure
 {
@@ -53,7 +54,6 @@ namespace TextAdventure
                 await stream.ReadAsync(charByte, 0, 256);
                 string input = BytesToString(charByte);
                 Console.Clear();
-                Console.WriteLine("Here: " + (CurrentRoom.ImmutableMap[Y][X] == null ? "nothing" : (CurrentRoom.ImmutableMap[Y][X].item == null ? "nothing" : CurrentRoom.ImmutableMap[Y][X].item.ToString())));
                 if (ActionWords[Actions.Up].Contains(input))
                 {
                     Move(0, -1);
@@ -69,18 +69,38 @@ namespace TextAdventure
                 else if (ActionWords[Actions.Left].Contains(input))
                 {
                     Move(-1, 0);
-                }else if (ActionWords[Actions.Take].Contains(input))
+                }
+                else if (ActionWords[Actions.Take].Contains(input))
                 {
-                    if(CurrentRoom.ImmutableMap[Y][X] != null && CurrentRoom.ImmutableMap[Y][X].item != null)
+                    if (CurrentRoom.ImmutableMap[Y][X] != null && CurrentRoom.ImmutableMap[Y][X].item != null)
                     {
-                        Console.WriteLine("There's an item here!");
+                        Console.Write("You take the " + CurrentRoom.ImmutableMap[Y][X].item + "!");
+                        if (Inventory.Contains(CurrentRoom.ImmutableMap[Y][X].item))
+                        {
+                            Item item = Inventory.Find(e => e.Equals(CurrentRoom.ImmutableMap[Y][X].item));
+                            (item as Consumable).Amount += (CurrentRoom.ImmutableMap[Y][X].item as Consumable).Amount;
+                        }
+                        else
+                        {
+                            Inventory.Add(CurrentRoom.ImmutableMap[Y][X].item);
+                        }
+                        CurrentRoom.ImmutableMap[Y][X].item = null;
+                        CurrentRoom.map[Y][X].item = null;
+                        CurrentRoom.map[Y][X].ReEvaluate();
+                        CurrentRoom.ImmutableMap[Y][X].item = null;
+                        CurrentRoom.ImmutableMap[Y][X].ReEvaluate();
                     }
                     else
                     {
-                        Console.WriteLine("No item here!");
+                        Console.Write("No item here!");
                     }
                 }
+                Console.WriteLine();
+                Console.WriteLine("Here: " + (CurrentRoom.ImmutableMap[Y][X] == null ? "nothing" : (CurrentRoom.ImmutableMap[Y][X].item == null ? "nothing" : CurrentRoom.ImmutableMap[Y][X].item.ToString())));
+
                 Console.WriteLine(CurrentRoom);
+
+                Console.WriteLine(GetInventory());
             }
         }
 
@@ -98,5 +118,23 @@ namespace TextAdventure
             }
             return output;
         }
+
+        public string GetInventory()
+        {
+            string output = "";
+
+            foreach (Item i in Inventory)
+            {
+                output += " | " + ((i is Consumable) ? (i as Consumable).Amount + " x " : "") + i.Name + " | ";
+            }
+
+            int chars = output.Length;
+
+            output = new StringBuilder().Insert(0, "-", chars).ToString() + "\n" + output + "\n" + new StringBuilder().Insert(0, "-", chars).ToString();
+
+            return output;
+        }
     }
+
+
 }

@@ -25,11 +25,25 @@ namespace TextAdventure.Items
             if(Amount == 0)
             {
                 Console.WriteLine("Used your last " + Name);
+                Owner.Inventory.Remove(this);
             }
             else
             {
                 Console.WriteLine("Used a " + Name);
             }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return (obj as Consumable).Name.Equals(Name);
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 805013783;
+            hashCode = hashCode * -1521134295 + Amount.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<Action<Player, Consumable>>.Default.GetHashCode(OnConsume);
+            return hashCode;
         }
     }
 }
