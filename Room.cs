@@ -38,10 +38,10 @@ namespace TextAdventure
 
         }
 
-        public Room AddExit(int x, int y, Room OutRoom, int ox, int oy)
+        public Room AddExit(int x, int y, bool enterable, Room OutRoom, int ox, int oy, bool oenterable)
         {
-            Exit exit = new Exit(x, y, OutRoom, this);
-            Exit oexit = new Exit(ox, oy, this, OutRoom);
+            Exit exit = new Exit(x, y, enterable, OutRoom, this);
+            Exit oexit = new Exit(ox, oy, oenterable, this, OutRoom);
             exit.Out = oexit;
             oexit.Out = exit;
 
@@ -76,8 +76,12 @@ namespace TextAdventure
         //Updating the room map; called in entity.move, as entity.move just changes the entity positions
         public void Move(int x, int y, int newX, int newY)
         {
-            map[newY][newX] = map[y][x];
-            map[y][x] = ImmutableMap[y][x];
+            try
+            {
+                map[newY][newX] = map[y][x];
+                map[y][x] = ImmutableMap[y][x];
+            }
+            catch (ArgumentOutOfRangeException) { }
         }
 
         public override string ToString()

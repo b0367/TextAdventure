@@ -18,7 +18,7 @@ namespace TextAdventure
 
         public volatile Room CurrentRoom;
 
-        public bool? Navigable; //Can it be moved into
+        public bool Navigable; //Can it be moved into
 
         public static Entity Default = new DefaultEntity();
 
@@ -49,18 +49,19 @@ namespace TextAdventure
             else
             {
                 //HasValue is for nullable booleans, so you don't accidently check if null is true
-                if (CurrentRoom.Get(NewX, NewY).Navigable.HasValue && CurrentRoom.Get(NewX, NewY).Navigable.Value)
+                if (CurrentRoom.Get(NewX, NewY).Navigable)
                 {
                     X = NewX;
                     Y = NewY;
 
-
-                    if (CurrentRoom.map[NewY][NewX] is Exit exit)
-                    {
-                        exit.NewRoom((Player)this, OldX, OldY);
-                    }
+                    bool DoMove = CurrentRoom.map[NewY][NewX] is Exit;
 
                     CurrentRoom.Move(OldX, OldY, NewX, NewY);
+
+                    if (DoMove)
+                    {
+                        ((Exit) CurrentRoom.ImmutableMap[NewY][NewX]).NewRoom((Player)this, OldX, OldY);
+                    }
 
                     return true;
                 }
@@ -70,7 +71,7 @@ namespace TextAdventure
 
         }
 
-        public Entity(int x, int y, string name, Room currentmap, bool? navigable = true, char representation = '░') //Sets up a basic entity
+        public Entity(int x, int y, string name, Room currentmap, bool navigable = true, char representation = '░') //Sets up a basic entity
         {
             X = x;
             Y = y;
