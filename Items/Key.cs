@@ -31,7 +31,7 @@ namespace TextAdventure.Items
             {
                 Console.Write("Keys can only be used on doors!");
             }
-        }, '✶')
+        }, 'ᴉ')
         { }
     }
 }

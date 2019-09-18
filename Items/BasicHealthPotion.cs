@@ -18,6 +18,6 @@ namespace TextAdventure.Items
             {
                 Console.Write("You're already at full health!");
             }
-        }, '⚗') { }
+        }, 'ᴥ') { }
     }
 }
