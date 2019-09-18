@@ -60,7 +60,7 @@ namespace TextAdventure
                     X = NewX;
                     Y = NewY;
 
-                    bool DoMove = CurrentRoom.map[NewY][NewX] is Exit;
+                    bool DoMove = CurrentRoom.map[NewY][NewX] is Exit exit && !exit.Locked && exit.Enterable;
 
                     CurrentRoom.Move(OldX, OldY, NewX, NewY);
 
@@ -97,6 +97,7 @@ namespace TextAdventure
             item = iitem;
             Representation = iitem == null ? representation : secret ? representation : iitem.Representation;
             RealRepresentation = representation;
+            ItemSecret = secret;
         }
 
         public override string ToString()
@@ -106,7 +107,7 @@ namespace TextAdventure
 
         public void ReEvaluate()
         {
-            if(item == null)
+            if (item == null)
             {
                 Representation = RealRepresentation;
             }

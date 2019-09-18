@@ -14,6 +14,10 @@ namespace TextAdventure.Items
                 p.CurrentHealth = Math.Min(p.CurrentHealth + 5, p.MaxHealth);
                 c.Decrement();
             }
-        }, '*') { }
+            else
+            {
+                Console.Write("You're already at full health!");
+            }
+        }, '⚗') { }
     }
 }

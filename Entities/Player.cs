@@ -50,6 +50,7 @@ namespace TextAdventure
 
         public async void GetInput(Stream stream)
         {
+
             Console.Clear();
             Console.WriteLine();
             Console.WriteLine("Here: " + (CurrentRoom.ImmutableMap[Y][X] == null ? "nothing" : (CurrentRoom.ImmutableMap[Y][X].item == null ? "nothing" : CurrentRoom.ImmutableMap[Y][X].item.ToString())));
@@ -103,8 +104,13 @@ namespace TextAdventure
                     Running = false;
                     return;
                 }
+
+
                 Console.WriteLine();
-                Console.WriteLine("Here: " + (CurrentRoom.ImmutableMap[Y][X] == null ? "nothing" : (CurrentRoom.ImmutableMap[Y][X].item == null ? "nothing" : CurrentRoom.ImmutableMap[Y][X].item.ToString())));
+                Console.WriteLine("Here: " + (
+                    CurrentRoom.ImmutableMap[Y][X] == null ? "nothing" :
+                   (CurrentRoom.ImmutableMap[Y][X].item == null ? CurrentRoom.ImmutableMap[Y][X].ToString() :
+                    CurrentRoom.ImmutableMap[Y][X].ItemSecret ? "nothing..." : CurrentRoom.ImmutableMap[Y][X].item.ToString())));
 
                 Console.WriteLine(CurrentRoom);
 
@@ -136,14 +142,17 @@ namespace TextAdventure
             {
                 slot = Convert.ToInt32(words[words.Length - 1]);
             }
-            catch (FormatException) { Console.WriteLine("Invalid slot! Please put a number.");  return; }
-            if(Inventory[slot] is Consumable)
+            catch (Exception e) when (e is OverflowException || e is FormatException) { Console.Write("Invalid item slot!"); return; }
+            if (slot < Inventory.Count)
             {
-                (Inventory[slot] as Consumable).OnConsume(this, (Inventory[slot] as Consumable));
+                if (Inventory[slot] is Consumable)
+                    (Inventory[slot] as Consumable).OnConsume(this, (Inventory[slot] as Consumable));
+                else
+                    Console.Write("This item can't be used!");
             }
             else
             {
-                Console.WriteLine("This item can't be used!");
+                Console.Write("Invalid item slot!");
             }
 
         }

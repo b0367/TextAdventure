@@ -24,12 +24,12 @@ namespace TextAdventure.Items
             Amount--;
             if(Amount == 0)
             {
-                Console.WriteLine("Used your last " + Name);
+                Console.Write("Used your last " + Name);
                 Owner.Inventory.Remove(this);
             }
             else
             {
-                Console.WriteLine("Used a " + Name);
+                Console.Write("Used a " + Name);
             }
         }
 

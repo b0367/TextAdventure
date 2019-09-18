@@ -38,10 +38,10 @@ namespace TextAdventure
 
         }
 
-        public Room AddExit(int x, int y, bool enterable, Room OutRoom, int ox, int oy, bool oenterable)
+        public Room AddExit(int x, int y, bool enterable, bool locked, Room OutRoom, int ox, int oy, bool oenterable, bool olocked)
         {
-            Exit exit = new Exit(x, y, enterable, OutRoom, this);
-            Exit oexit = new Exit(ox, oy, oenterable, this, OutRoom);
+            Exit exit = new Exit(x, y, enterable, locked, OutRoom, this);
+            Exit oexit = new Exit(ox, oy, oenterable, olocked, this, OutRoom);
             exit.Out = oexit;
             oexit.Out = exit;
 
