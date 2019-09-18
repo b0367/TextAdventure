@@ -13,7 +13,7 @@ namespace TextAdventure
 
         public bool Enterable;
 
-        public Exit(int x, int y, bool enterable, Room outroom, Room inroom, Exit oout = null) : base(x, y, "Exit", inroom, enterable, enterable ? 'O' : 'Θ') //Creates an Exit at (x,y) named "Exit" in the present room is navigable and is seen as "D"
+        public Exit(int x, int y, bool enterable, Room outroom, Room inroom, Exit oout = null) : base(x, y, "Exit", inroom, enterable, enterable ? 'O' : 'Ø') //Creates an Exit at (x,y) named "Exit" in the present room is navigable and is seen as "D"
         {
             //Sets the room you come in from and where you go out to
             Enterable = enterable;

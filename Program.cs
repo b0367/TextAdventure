@@ -30,11 +30,16 @@ namespace TextAdventure
                     }
                 }
             }
+            StartingRoom.AddPlayer(1, 1);
             StartingRoom.AddExit(4, 4, true, NewRoom, 1, 1, true);
 
-            p.GetInput(Console.OpenStandardInput());
+            Stream stream = Console.OpenStandardInput();
 
-            while (true);
+            p.GetInput(stream);
+
+            while (p.Running);
+
+            stream.Dispose();
 
         }
     }

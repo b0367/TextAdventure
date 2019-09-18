@@ -11,9 +11,9 @@ namespace TextAdventure.Items
         public BasicHealthPotion(int amount, Player owner) : base("Basic Health Potion", owner, amount, (p, c) => {
             if(p.CurrentHealth < p.MaxHealth)
             {
-                p.CurrentHealth = Math.Max(p.CurrentHealth + 5, p.MaxHealth);
+                p.CurrentHealth = Math.Min(p.CurrentHealth + 5, p.MaxHealth);
                 c.Decrement();
             }
-        }, 'h') { }
+        }, '*') { }
     }
 }
