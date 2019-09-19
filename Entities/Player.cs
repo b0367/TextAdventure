@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using TextAdventure.Entities;
 using TextAdventure.Items;
 
 namespace TextAdventure
@@ -13,16 +14,12 @@ namespace TextAdventure
     {
         Up, Down, Left, Right, Take, Use, Quit
     }
-    public class Player : Entity
+    public class Player : HealthEntity
     {
 
         internal Entity NothingEntity = new DefaultEntity("nothing");
 
         public List<Item> Inventory = new List<Item>();
-
-        public int MaxHealth = 20;
-
-        public int CurrentHealth = 1;
 
         public Dictionary<Slots, Item> Equips = new Dictionary<Slots, Item>() {
             { Slots.Body, null },
@@ -46,7 +43,7 @@ namespace TextAdventure
         };
         internal bool Running = true;
 
-        public Player(int x, int y, Room room) : base(x, y, "Player", room, false, '@') { } //Create a Player at (x,y) named Player in the current room that's not navigable and seen as "P"
+        public Player(int x, int y, int mxhp, Room room) : base(x, y, mxhp, "Player", room, false, '@') { } //Create a Player at (x,y) named Player in the current room that's not navigable and seen as "P"
 
         public async void GetInput(Stream stream)
         {

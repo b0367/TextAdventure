@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\DefaultEntity.cs" />
+    <Compile Include="Entities\HealthEntity.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Exit.cs" />
     <Compile Include="Item.cs" />
