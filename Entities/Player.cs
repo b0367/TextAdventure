@@ -32,6 +32,8 @@ namespace TextAdventure
             { Slots.Misc2, null },
         };
 
+        private Mutex Cursor = new Mutex();
+
         public Dictionary<Actions, List<string>> ActionWords = new Dictionary<Actions, List<string>>()
         {
             { Actions.Up, new string[]{"w", "up", "north" }.ToList() },
@@ -133,24 +135,51 @@ namespace TextAdventure
 
             while (player.CurrentHealth > 0 && enemy.CurrentHealth > 0)
             {
-                Console.WriteLine(BattleScene(player, enemy));
+                await BattleScene(player, enemy);
                 input = BytesToString(charByte);
                 await stream.ReadAsync(charByte, 0, 256);
                 switch (input)
-                {//e
+                {
+                    default:
+                        Console.Write("");
+                        break;
                 }
             }
 
             return;
         }
 
-        private string BattleScene(Player player, Enemy enemy)
+        private Task BattleScene(Player player, Enemy enemy)
         {
-            int PlayerHealthBarAmount = (player.CurrentHealth / player.MaxHealth) / (player.MaxHealth / 10);
-            int EnemyHealthBarAmount = (enemy.CurrentHealth / enemy.MaxHealth) / (enemy.MaxHealth / 10);
+            int PlayerHealthBarAmount = (player.CurrentHealth / player.MaxHealth) * 10;
+            int EnemyHealthBarAmount = (enemy.CurrentHealth / enemy.MaxHealth) * 10;
+            Console.WriteLine(enemy.CurrentHealth / enemy.MaxHealth);
+            Console.CursorTop = 0;
+            string output = "****************                        ░░░         \n* [" + new string('|', EnemyHealthBarAmount) + new string(' ', 10 - EnemyHealthBarAmount) + "] *                    ░░░░░░░░░░░     \n****************                  ░░░░░░   ░░░░░░   \n                                  ░░░░░  " + enemy.Representation + "  ░░░░░   \n                                  ░░░░░░   ░░░░░░   \n                                    ░░░░░░░░░░░     \n                                        ░░░     \n                        - VS -\n        ░░░\n    ░░░░░░░░░░░\n  ░░░░░░   ░░░░░░   \n  ░░░░░  " + player.Representation + "  ░░░░░   \n  ░░░░░░   ░░░░░░                 ****************\n    ░░░░░░░░░░░                   * [" + new string('|', PlayerHealthBarAmount) + new string(' ', 10 - PlayerHealthBarAmount) + "] *\n        ░░░                       ****************";
+            int charindex = 0;
+            string[] lines = output.Split('\n');
+            int longest = 0;
+            lines.ToList().ForEach(e => {
+                if(e.Length > longest)
+                {
+                    longest = e.Length;
+                }
+            });
+            while (charindex < longest) {
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    char[] chars = lines[i].ToCharArray();
 
-            string output = "****************                        ░░░         \n* [||||||||||] *                    ░░░░░░░░░░░     \n****************                  ░░░░░░   ░░░░░░   \n                                  ░░░░░  " + enemy.Representation + "  ░░░░░   \n                                  ░░░░░░   ░░░░░░   \n                                    ░░░░░░░░░░░     \n                                        ░░░     \n                        - VS -\n        ░░░\n    ░░░░░░░░░░░\n  ░░░░░░   ░░░░░░   \n  ░░░░░  " + player.Representation + "  ░░░░░   \n  ░░░░░░   ░░░░░░                 ****************\n    ░░░░░░░░░░░                   * [||||||||||] *\n        ░░░                       ****************";
-            return output;
+                    Console.SetCursorPosition(charindex, i);
+                    Console.Write(chars.Length > charindex ? chars[charindex] : '\0');
+                    Thread.Sleep(7);
+                }
+                charindex++;
+            }
+
+            Console.WriteLine();
+
+            return Task.CompletedTask;
         }
 
 
