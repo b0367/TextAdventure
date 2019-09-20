@@ -132,10 +132,9 @@ namespace TextAdventure
         {
             byte[] charByte = new byte[256];
             string input;
-
+            await BattleScene(player, enemy, true);
             while (player.CurrentHealth > 0 && enemy.CurrentHealth > 0)
             {
-                await BattleScene(player, enemy);
                 input = BytesToString(charByte);
                 await stream.ReadAsync(charByte, 0, 256);
                 switch (input)
@@ -144,40 +143,54 @@ namespace TextAdventure
                         Console.Write("");
                         break;
                 }
+                await BattleScene(player, enemy, false);
+
             }
 
             return;
         }
 
-        private Task BattleScene(Player player, Enemy enemy)
+        private Task BattleScene(Player player, Enemy enemy, bool Anim)
         {
             int PlayerHealthBarAmount = (player.CurrentHealth / player.MaxHealth) * 10;
             int EnemyHealthBarAmount = (enemy.CurrentHealth / enemy.MaxHealth) * 10;
             Console.WriteLine(enemy.CurrentHealth / enemy.MaxHealth);
-            Console.CursorTop = 0;
+
             string output = "****************                        ░░░         \n* [" + new string('|', EnemyHealthBarAmount) + new string(' ', 10 - EnemyHealthBarAmount) + "] *                    ░░░░░░░░░░░     \n****************                  ░░░░░░   ░░░░░░   \n                                  ░░░░░  " + enemy.Representation + "  ░░░░░   \n                                  ░░░░░░   ░░░░░░   \n                                    ░░░░░░░░░░░     \n                                        ░░░     \n                        - VS -\n        ░░░\n    ░░░░░░░░░░░\n  ░░░░░░   ░░░░░░   \n  ░░░░░  " + player.Representation + "  ░░░░░   \n  ░░░░░░   ░░░░░░                 ****************\n    ░░░░░░░░░░░                   * [" + new string('|', PlayerHealthBarAmount) + new string(' ', 10 - PlayerHealthBarAmount) + "] *\n        ░░░                       ****************";
-            int charindex = 0;
-            string[] lines = output.Split('\n');
-            int longest = 0;
-            lines.ToList().ForEach(e => {
-                if(e.Length > longest)
-                {
-                    longest = e.Length;
-                }
-            });
-            while (charindex < longest) {
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    char[] chars = lines[i].ToCharArray();
+            if (Anim)
+            {
+                Console.CursorTop = 0;
 
-                    Console.SetCursorPosition(charindex, i);
-                    Console.Write(chars.Length > charindex ? chars[charindex] : '\0');
-                    Thread.Sleep(7);
+                int charindex = 0;
+                string[] lines = output.Split('\n');
+                int longest = 0;
+                lines.ToList().ForEach(e =>
+                {
+                    if (e.Length > longest)
+                    {
+                        longest = e.Length;
+                    }
+                });
+                while (charindex < longest)
+                {
+                    for (int i = 0; i < lines.Length; i++)
+                    {
+                        char[] chars = lines[i].ToCharArray();
+
+                        Console.SetCursorPosition(charindex, i);
+                        Console.Write(chars.Length > charindex ? chars[charindex] : '\0');
+                        Thread.Sleep(7);
+                    }
+                    charindex++;
                 }
-                charindex++;
+                Console.WriteLine();
+
             }
-
-            Console.WriteLine();
+            else
+            {
+                Console.Clear();
+                Console.WriteLine(output);
+            }
 
             return Task.CompletedTask;
         }
