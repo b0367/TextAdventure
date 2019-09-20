@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using TextAdventure.Entities;
 using TextAdventure.Items;
 
@@ -17,7 +18,7 @@ namespace TextAdventure
     public class Player : HealthEntity
     {
 
-        internal Entity NothingEntity = new DefaultEntity("nothing");
+        internal Entity NothingEntity = new DefaultEntity(-1, -1, "nothing", null, null);
 
         public List<Item> Inventory = new List<Item>();
 
@@ -102,18 +103,54 @@ namespace TextAdventure
                     return;
                 }
 
+                if (CurrentRoom.ImmutableMap[Y][X] is Enemy enemy)
+                {
+                    //battle or something
+                    await Battle(this, enemy, stream);
+                }
+                else
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Here: " + (
+                        CurrentRoom.ImmutableMap[Y][X] == null ? "nothing" :
+                       (CurrentRoom.ImmutableMap[Y][X].item == null ? CurrentRoom.ImmutableMap[Y][X].ToString() :
+                        CurrentRoom.ImmutableMap[Y][X].ItemSecret ? "nothing..." : CurrentRoom.ImmutableMap[Y][X].item.ToString())));
 
-                Console.WriteLine();
-                Console.WriteLine("Here: " + (
-                    CurrentRoom.ImmutableMap[Y][X] == null ? "nothing" :
-                   (CurrentRoom.ImmutableMap[Y][X].item == null ? CurrentRoom.ImmutableMap[Y][X].ToString() :
-                    CurrentRoom.ImmutableMap[Y][X].ItemSecret ? "nothing..." : CurrentRoom.ImmutableMap[Y][X].item.ToString())));
+                    Console.WriteLine(CurrentRoom);
 
-                Console.WriteLine(CurrentRoom);
+                    Console.WriteLine(GetInventory());
+                    Console.WriteLine(GetHealth());
+                }
 
-                Console.WriteLine(GetInventory());
-                Console.WriteLine(GetHealth());
+
             }
+        }
+
+        private async Task Battle(Player player, Enemy enemy, Stream stream)
+        {
+            byte[] charByte = new byte[256];
+            string input;
+
+            while (player.CurrentHealth > 0 && enemy.CurrentHealth > 0)
+            {
+                Console.WriteLine(BattleScene(player, enemy));
+                input = BytesToString(charByte);
+                await stream.ReadAsync(charByte, 0, 256);
+                switch (input)
+                {//e
+                }
+            }
+
+            return;
+        }
+
+        private string BattleScene(Player player, Enemy enemy)
+        {
+            int PlayerHealthBarAmount = (player.CurrentHealth / player.MaxHealth) / (player.MaxHealth / 10);
+            int EnemyHealthBarAmount = (enemy.CurrentHealth / enemy.MaxHealth) / (enemy.MaxHealth / 10);
+
+            string output = "****************                        ░░░         \n* [||||||||||] *                    ░░░░░░░░░░░     \n****************                  ░░░░░░   ░░░░░░   \n                                  ░░░░░  " + enemy.Representation + "  ░░░░░   \n                                  ░░░░░░   ░░░░░░   \n                                    ░░░░░░░░░░░     \n                                        ░░░     \n                        - VS -\n        ░░░\n    ░░░░░░░░░░░\n  ░░░░░░   ░░░░░░   \n  ░░░░░  " + player.Representation + "  ░░░░░   \n  ░░░░░░   ░░░░░░                 ****************\n    ░░░░░░░░░░░                   * [||||||||||] *\n        ░░░                       ****************";
+            return output;
         }
 
 

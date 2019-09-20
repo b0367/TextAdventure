@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TextAdventure
 {
-    public class Entity
+    public abstract class Entity
     {
         public char Representation = ' '; //What the entity looks like
 
@@ -26,7 +26,7 @@ namespace TextAdventure
 
         public bool Navigable; //Can it be moved into
 
-        public static Entity Default = new DefaultEntity("");
+        public static Entity Default = new DefaultEntity(0, 0, "", null, null, false, '░');
 
         public bool Move(int DeltaX, int DeltaY) //Mainly for players. It'll move the player on the board
         {

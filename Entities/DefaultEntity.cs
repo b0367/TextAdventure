@@ -8,6 +8,6 @@ namespace TextAdventure
 {
     class DefaultEntity : Entity
     {
-        public DefaultEntity(string name) : base(0, 0, name, null) { } //Not used yet so I'm not gonna bother
+        public DefaultEntity(int x, int y, string name, Room room, Item iitem, bool navigable = true, char representation = '░', bool secret = false) : base(x, y, name, room, iitem, navigable, representation, secret) { } //Not used yet so I'm not gonna bother
     }
 }

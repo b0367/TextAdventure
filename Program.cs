@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TextAdventure.Entities;
 using TextAdventure.Items;
 
 namespace TextAdventure
@@ -26,7 +27,7 @@ namespace TextAdventure
                 {
                     if (r.Next(100) < 10)
                     {
-                        Entity e = new Entity(j, i, "nothing", NewRoom, new Key(1, p), true, '░', false);
+                        Entity e = new DefaultEntity(j, i, "nothing", NewRoom, new Key(1, p), true, '░', false);
                         StartingRoom.ImmutableMap[j][i] = e;
                         StartingRoom.map[j][i] = e;
                     }
@@ -48,7 +49,7 @@ namespace TextAdventure
                 {
                     if (r.Next(100) < 10)
                     {
-                        Entity e = new Entity(j, i, "nothing", NewRoom, new BasicHealthPotion(1, p), true, '░', false);
+                        Entity e = new Enemy(j, i, 10, "Monster", StartingRoom);
                         StartingRoom.ImmutableMap[j][i] = e;
                         StartingRoom.map[j][i] = e;
                     }
